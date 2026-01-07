@@ -1,0 +1,9 @@
+{
+  "id": "obsidian-plugin-review-tag",
+  "name": "Review Tag",
+  "version": "1.0.0",
+  "minAppVersion": "0.9.12",
+  "description": "为Obsidian添加复习标签插件",
+  "author": "",
+  "isDesktopOnly": false
+}
