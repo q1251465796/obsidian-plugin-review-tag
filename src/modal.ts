@@ -1,21 +1,30 @@
-import { App, Modal } from 'obsidian';
-import { createApp } from 'vue';
-import MinimalPlugin from './main';
-import ReviewTagComponent from './components/ReviewTag.vue';
+import { App, Modal } from "obsidian";
+import { createApp } from "vue";
+import ReviewTagPlugin from "./main";
+import ReviewTagComponent from "./components/ReviewTag.vue";
 
 export class ReviewTagModal extends Modal {
-  plugin: MinimalPlugin;
+  plugin: ReviewTagPlugin;
   vueApp: any;
 
-  constructor(app: App, plugin: MinimalPlugin) {
+  constructor(app: App, plugin: ReviewTagPlugin) {
     super(app);
     this.plugin = plugin;
+    this.titleEl.setText("待复习标签");
   }
 
   onOpen() {
     const { contentEl } = this;
 
-    this.vueApp = createApp(ReviewTagComponent);
+    // 使用插件中的Pinia实例
+    if (!this.plugin.pinia) {
+      throw new Error("Pinia instance not found in plugin");
+    }
+
+    this.vueApp = createApp(ReviewTagComponent, {
+      plugin: this.plugin,
+    });
+    this.vueApp.use(this.plugin.pinia);
     this.vueApp.mount(contentEl);
   }
 
